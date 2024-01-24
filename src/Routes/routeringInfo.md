@@ -1,0 +1,1 @@
+-  /test route is defined for only testing purpose
