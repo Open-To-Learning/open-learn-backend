@@ -8,7 +8,9 @@ const handleVideoRequest = async (req: Request, res: Response) => {
     try {
         const videoURL = req.params.videoID;
         const info: videoInfo = await ytdl.getInfo(videoURL);
-
+        if(req.query.audioOnly === "true" && req.query.videoOnly === "true" ){
+            sendAudioAndVideo(info,res);
+        }
         if (req.query.audioOnly === "true") {
             sendHighestAudioFormat(info, res);
         } else if (req.query.videoOnly === "true") {
@@ -26,6 +28,9 @@ const sendHighestAudioFormat = (info: videoInfo, res: Response) => {
     const format = chooseFormat(info.formats, { quality: "highestaudio" });
     sendResponse(res, format);
 };
+const sendAudioAndVideo = (info: videoInfo , res:Response) =>{
+    const format = chooseFormat(info.formats,{filter:"audioandvideo"})
+}
 
 const sendHighestVideoFormat = (info: videoInfo, res: Response) => {
     const format = chooseFormat(info.formats, { filter: "videoonly" });

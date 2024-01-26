@@ -1,7 +1,10 @@
 import express, { Request, Response } from 'express';
 import dotenv from 'dotenv';
 import Full_Video_route from './Routes/FetchVideoFromURL/FechVideoFromURL';
+import bodyParser from 'body-parser';
+import authRoute from './auth/auth';
 
+// config
 // config
 dotenv.config(); // configuring .env file
 
@@ -12,8 +15,11 @@ const app = express();
 
 // middleware
 app.use(express.json());
+app.use(express.urlencoded({ extended: false })); // Use built-in express.urlencoded middleware
+
 // all routes
-app.use('/api/v1',Full_Video_route)
+app.use('/api/v1', Full_Video_route);
+app.use('/auth', authRoute);
 
 // default route
 app.get('/', (req: Request, res: Response) => {

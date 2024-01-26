@@ -1,0 +1,8 @@
+
+POST  http://localhost:8000/auth  HTTP/1.1
+Content-Type: "application/json"
+
+{
+    "name":"Gopal",
+    "password":"Gopal100%"
+}
