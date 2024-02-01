@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { User } from '../Models/userModel';
+import { User } from '../../DB/Models/userModel';
 import bcrypt from 'bcrypt';
 
 async function checkpass(res: Response, password: string, hashedPassword: string) {

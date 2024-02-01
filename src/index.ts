@@ -2,9 +2,7 @@ import express, { Request, Response } from 'express';
 import dotenv from 'dotenv';
 import Full_Video_route from './Routes/FetchVideoFromURL/FechVideoFromURL';
 import bodyParser from 'body-parser';
-import authRoute from './auth/auth';
-import mongoose from "mongoose";
-import { User } from './Models/userModel';
+import authRoute from './Routes/auth/auth';
 import DBConnection from './DB/db'
 // config
 dotenv.config(); // configuring .env file

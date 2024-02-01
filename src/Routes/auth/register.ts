@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { User } from '../Models/userModel';
+import { User } from '../../DB/Models/userModel';
 import bcrypt from 'bcrypt';
 
 interface UserInterface {
@@ -21,6 +21,15 @@ export default async function RegisterHandler(req: Request, res: Response) {
     try {
         const { fullName, userName, email, password }: UserInterface = req.body;
 
+        // Check if userName or email already exists in the database
+        const existingUser = await User.findOne({ $or: [{ userName }, { email }] });
+        if (existingUser) {
+            return res.status(400).json({
+                status: 400,
+                message: 'User with the same userName or email already exists!'
+            });
+        }
+
         // Generate hashed password
         const hashedPassword = await generateHashedPassword(password);
 
@@ -37,14 +46,14 @@ export default async function RegisterHandler(req: Request, res: Response) {
         console.log('User saved successfully');
         
         res.status(201).json({
-            staus:201,
-            message:"Data saved successfully"
+            status: 201,
+            message: "Data saved successfully"
         }); // 201 status for resource created
     } catch (error) {
         console.error('Error in RegisterHandler:', error);
         res.status(500).json({
-            staus:500,
-            message:"internal server error"
+            status: 500,
+            message: "Internal server error"
         });
     }
 }
