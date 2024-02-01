@@ -27,26 +27,10 @@ app.use('/auth/', authRoute);
 
 // default route
 app.get('/', (req: Request, res: Response) => {
-  const newUser = new User({
-    fullName: 'John Doe',
-    userName: 'john_doe123',
-    password: ['hashed_password'],
-    coursesId: ['course_id_1', 'course_id_2'],
-    platformFollowers: 'Platform-Followers',
-    profile: 'User profile description',
-    social: [
-      { svg: 'social_svg_1', name: 'SocialName1', link: 'SocialLink1' },
-      { svg: 'social_svg_2', name: 'SocialName2', link: 'SocialLink2' },
-    ],
-  });
-  newUser.save().then(()=>{
-    console.log('sucess');
-    
-  }).catch(err=>console.log(err.message));
-  res.json({
-    status: res.statusCode,
-    message: 'Successfully Connected!',
-  });
+  res.status(200).json({
+    staus:200,
+    message:"server Found!"
+  })
 });
 
 app.listen(PORT, () => {

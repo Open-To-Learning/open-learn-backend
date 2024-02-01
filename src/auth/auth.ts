@@ -1,12 +1,12 @@
-import {Request,Response,Router} from 'express';
+import {Router} from 'express';
+import RegisterHandler from './register';
+import loginHandler from './login';
 
 const router = Router();
 
 
-router.post('/',(req:Request,res:Response)=>{
-    const {email,password} = req.body;
-    res.send(req.body);
-    
 
-});
+router.post('/register',RegisterHandler);
+router.post('/login',loginHandler);
+
 export default router;
