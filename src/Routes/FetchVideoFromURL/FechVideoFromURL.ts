@@ -71,14 +71,14 @@ const handleError = (res: Response, errorMessage: string) => {
     console.error('Error:', errorMessage);
     res.status(500).json({ error: errorMessage });
 };
-
-// video details fetching
+ 
+// video details fetching 
 async function fetchOnlyVideoDetails(req:Request,res:Response){
     const info: videoInfo = await ytdl.getInfo(req.params.videoID);
     res.json(info.videoDetails);
 }
 // Route handler
-route.get('/:videoID/video-details',fetchOnlyVideoDetails)
-route.get('/:videoID?', handleVideoRequest);
+route.get('/video-url/:videoID/video-details',fetchOnlyVideoDetails)
+route.get('/video-url/:videoID?', handleVideoRequest);
 
 export default route;
