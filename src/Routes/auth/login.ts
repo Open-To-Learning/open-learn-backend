@@ -29,7 +29,6 @@ async function checkpass(res: Response, password: string, hashedPassword: string
 export default async function loginHandler(req: Request, res: Response) {
     try {
         const { userName, email, password }: { userName: string; email: string; password: string } = req.body;
-        
         if (userName) {
             const user = await User.findOne({ userName });
             if (user) {

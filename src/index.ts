@@ -4,6 +4,8 @@ import Full_Video_route from './Routes/FetchVideoFromURL/FechVideoFromURL';
 import bodyParser from 'body-parser';
 import authRoute from './Routes/auth/auth';
 import DBConnection from './DB/db'
+import cookieParser from 'cookie-parser';
+
 // config
 dotenv.config(); // configuring .env file
 
@@ -11,14 +13,18 @@ dotenv.config(); // configuring .env file
 const app = express();
 const PORT = process.env.PORT || 8000;
 const DB: string | undefined = process.env.DB || "error";
+// exports
+export const SECRET_TOKEN: string | undefined = process.env.USER_SECRET;
 
- // DB
+// DB
 DBConnection(DB);
 
 // middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: false })); // Use built-in express.urlencoded middleware
 app.use(bodyParser.urlencoded({extended:false}))
+app.use(cookieParser());
+
 // all routes
 app.use('/api/v1', Full_Video_route);
 app.use('/auth/', authRoute);

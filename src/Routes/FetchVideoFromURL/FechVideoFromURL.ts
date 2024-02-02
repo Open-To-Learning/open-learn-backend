@@ -1,5 +1,6 @@
-import { Request, Response, Router } from "express";
+import { NextFunction, Request, Response, Router } from "express";
 import ytdl, { videoInfo, Filter, chooseFormat } from "ytdl-core";
+import checkauth from "../../middleware/checkauth";
 
 const route = Router();
 
@@ -24,12 +25,13 @@ const handleVideoRequest = async (req: Request, res: Response) => {
 };
 
 const sendHighestAudioFormat = (info: videoInfo, res: Response) => {
-    
     const format = chooseFormat(info.formats, { quality: "highestaudio" });
     sendResponse(res, format);
 };
+
 const sendAudioAndVideo = (info: videoInfo , res:Response) =>{
-    const format = chooseFormat(info.formats,{filter:"audioandvideo"})
+    const format = chooseFormat(info.formats,{filter:"audioandvideo"});
+    sendResponse(res, format); // sending response after processing
 }
 
 const sendHighestVideoFormat = (info: videoInfo, res: Response) => {
@@ -78,7 +80,7 @@ async function fetchOnlyVideoDetails(req:Request,res:Response){
     res.json(info.videoDetails);
 }
 // Route handler
-route.get('/video-url/:videoID/video-details',fetchOnlyVideoDetails)
-route.get('/video-url/:videoID?', handleVideoRequest);
+route.get('/video-url/:videoID/video-details',checkauth,fetchOnlyVideoDetails)
+route.get('/video-url/:videoID?', checkauth, handleVideoRequest); // Adding checkauth middleware here
 
 export default route;
