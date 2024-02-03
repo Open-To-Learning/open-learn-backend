@@ -38,7 +38,8 @@ export default function checkauth(req: Request, res: Response, next: NextFunctio
             
         } else {
             // Token verification successful
-            console.log('Token verification successful:', decodedToken);
+            // console.log('Token verification successful:', decodedToken);
+            req.params.cookiesData = decodedToken;
 
             // Call next() to pass control to the next middleware or route handler
             next();

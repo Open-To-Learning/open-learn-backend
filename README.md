@@ -21,14 +21,18 @@ This backend server handles user authentication, data storage, and retrieval for
    npm install
    ```
 
-3. Configure environment variables:
+3. Configure environment variables: create .env file
 
-    already configed! 
+   - PORT = 500
+   - DB = [your mongodb compass local data base url]
+      - ex: (mongodb://localhost:27017/)
+
+   - USER_SECRET = 'your secret'
 
 4. Start the server:
 
    ```bash
-   npm start
+   npm run dev
    ```
 
 ## Usage

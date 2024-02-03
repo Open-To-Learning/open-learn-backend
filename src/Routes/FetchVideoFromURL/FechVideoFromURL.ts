@@ -6,15 +6,18 @@ const route = Router();
 
 // Function to handle the route logic
 const handleVideoRequest = async (req: Request, res: Response) => {
+    
     try {
         const videoURL = req.params.videoID;
         const info: videoInfo = await ytdl.getInfo(videoURL);
-        if(req.query.audioOnly === "true" && req.query.videoOnly === "true" ){
-            sendAudioAndVideo(info,res);
-        }
-        if (req.query.audioOnly === "true") {
+        
+        const { video, audio } = req.query;
+        
+        if (video === 'true' && audio === 'true') {
+            sendAudioAndVideo(info, res);
+        } else if (audio === 'true') {
             sendHighestAudioFormat(info, res);
-        } else if (req.query.videoOnly === "true") {
+        } else if (video === 'true') {
             sendHighestVideoFormat(info, res);
         } else {
             handleFilterRequest(req, info, res);
@@ -79,8 +82,9 @@ async function fetchOnlyVideoDetails(req:Request,res:Response){
     const info: videoInfo = await ytdl.getInfo(req.params.videoID);
     res.json(info.videoDetails);
 }
+
 // Route handler
 route.get('/video-url/:videoID/video-details',checkauth,fetchOnlyVideoDetails)
-route.get('/video-url/:videoID?', checkauth, handleVideoRequest); // Adding checkauth middleware here
+route.get('/video-url/:videoID?', checkauth, handleVideoRequest);
 
 export default route;
