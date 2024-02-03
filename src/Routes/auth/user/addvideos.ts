@@ -27,7 +27,18 @@ export default async function addNewVideo(req: Request, res: Response, next: Nex
       status: 400,
       message: 'Cookies name and id name mismatch',
     });
-    return;
+    return ;
+  }
+  const isCourseAllReadyExists = await Course.findOne({
+    videoId:youtubeVideoId
+  });
+  if(isCourseAllReadyExists){
+   res.status(500).json({
+        status:500,
+        message:`course already exist by author ${isCourseAllReadyExists.author}`
+    })
+    return ;
+     
   }
 
   try {
