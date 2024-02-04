@@ -35,7 +35,7 @@ const courseSchema = new Schema<CourseDocument>({
   videoId: { type: String, required: true },
   title: { type: String, required: true },
   lengthSeconds:{type:String,require:true},
-  description: { type: String, required: true },
+  description: { type: String, required: false },
   thumbnail: { 
     width:{type:Number,required:true},
     height:{type:Number,required:true},
@@ -43,7 +43,7 @@ const courseSchema = new Schema<CourseDocument>({
 
    },
   paid: { type: Boolean, required: true },
-  cost:{ stype:String , default:"0"},
+  cost:{ type:String , default:"0"},
   tags: { type: [String], required: false },
   type: { type: String, required: false },
   popularity: { type: String, required: false },

@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express";
-import { User } from "../../../DB/Models/userModel";
 import ytdl, { videoInfo } from "ytdl-core";
 import { Course } from "../../../DB/Models/courseModel";
+import { User } from "../../../DB/Models/userModel";
 
 async function imageUrlToBase64(url: string) {
   try {
@@ -17,9 +17,9 @@ async function imageUrlToBase64(url: string) {
   }
 }
 
-export default async function addNewVideo(req: Request, res: Response, next: NextFunction) {
+export default async function refetchVideo(req: Request, res: Response, next: NextFunction) {
   const cookiesData: any = req.params.cookiesData;
-  const {userName, youtubeVideoId} = req.body;
+  const {userName ,youtubeVideoId} = req.body;
 
   if (cookiesData.userName !== userName) {
     res.status(400).json({
@@ -28,17 +28,9 @@ export default async function addNewVideo(req: Request, res: Response, next: Nex
     });
     return ;
   }
-  const isCourseAllReadyExists = await Course.findOne({
-    videoId:youtubeVideoId
-  });
-  if(isCourseAllReadyExists){
-   res.status(500).json({
-        status:500,
-        message:`course already exist by author ${isCourseAllReadyExists.author}`
-    })
-    return ;
-     
-  }
+
+ 
+
 
   try {
     const info: videoInfo = await ytdl.getInfo(youtubeVideoId);
@@ -47,34 +39,33 @@ export default async function addNewVideo(req: Request, res: Response, next: Nex
 
     const imageBase64 = await imageUrlToBase64(thumbnail.url);
 
-    const course = new Course({
-      videoId,
-      title,
-      description,
-      lengthSeconds,
-      uploadDate,
-      thumbnail: {
-        width: thumbnail.width,
-        height: thumbnail.height,
-        base64: imageBase64,
-      },
-      author: userName,
-      paid: false,
-      tags: keywords,
-    });
-
-    await course.save();
-
-    // Save course.id to the coursesIds array in the User model
-    const user = await User.findOneAndUpdate(
-      { userName: userName },
-      { $push: { coursesIds: course.id } },
-      { new: true }
-    );
-
-    res.json({
-        course,
-        user
+    const updatedCourse = await Course.findOneAndReplace(
+        {
+            videoId:youtubeVideoId,
+            author:userName
+        },
+        { 
+            title,
+            description,
+            lengthSeconds,
+            uploadDate,
+            videoId,
+            thumbnail: {
+            width: thumbnail.width,
+            height: thumbnail.height,
+            base64: imageBase64,
+            },
+            tag:keywords },
+        {new:true,upsert:true}    
+      );
+      if(!updatedCourse){
+        res.status(404).json({
+            status:404,
+            message:"no course found in your id"
+        })
+      }
+    res.status(200).json({
+        updatedCourse
     });
   } catch (err: any) {
     res.status(404).json({

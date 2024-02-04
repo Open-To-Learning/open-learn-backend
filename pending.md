@@ -13,8 +13,8 @@
 11. [x] YouTube Video Details & Formats Route 
 12. [x] Save Courses to Database
 13. [x] Save CoursesId to user courseId Array to Database
-14. [ ] deleted courses from database and user corseId array 
+14. [x] deleted courses from database and user corseId array 
 15. [ ] deleted/update users from database  
 16. [ ] find tranding courses from database  based on popuularity
-17. [ ] update/detete courses 
+17. [x] update/detete courses [created refec option]
 
