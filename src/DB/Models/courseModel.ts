@@ -21,6 +21,7 @@ interface CourseDocument extends Document {
   description: string;
   thumbnail: thumbnail;
   paid: boolean;
+  cost:string;
   tags: string[];
   type: string;
   popularity: string;
@@ -42,6 +43,7 @@ const courseSchema = new Schema<CourseDocument>({
 
    },
   paid: { type: Boolean, required: true },
+  cost:{ stype:String , default:"0"},
   tags: { type: [String], required: false },
   type: { type: String, required: false },
   popularity: { type: String, required: false },
