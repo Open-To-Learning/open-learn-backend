@@ -24,7 +24,7 @@ interface CourseDocument extends Document {
   cost:string;
   tags: string[];
   type: string;
-  popularity: string;
+  popularity: number;
   author: string;
   uploadDate: string;
   reviews: Review[];
@@ -46,7 +46,7 @@ const courseSchema = new Schema<CourseDocument>({
   cost:{ type:String , default:"0"},
   tags: { type: [String], required: false },
   type: { type: String, required: false },
-  popularity: { type: String, required: false },
+  popularity: { type: Number,default:0 },
   author: { type: String, required: true },
   uploadDate: { type: String, required: true },
   reviews: [{

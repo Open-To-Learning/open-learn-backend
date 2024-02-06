@@ -1,57 +1,75 @@
 import { Request, Response } from 'express';
-import { User } from '../../DB/Models/userModel';
+import { User } from '../../DB/Models/userModel';;
 import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
+import { SECRET_TOKEN } from '../../index';
 
-async function checkpass(res: Response, password: string, hashedPassword: string) {
+
+function generateToken(userName: string, password: string): string {
+    if (!SECRET_TOKEN) {
+        throw new Error('User secret token not found');
+    }
+
+    const token = jwt.sign({ userName, password }, SECRET_TOKEN);
+    return token;
+}
+
+
+async function checkpass(password: string, hashedPassword: string) {
     try {
         // Compare the provided password with the hashed password
         const passwordMatch = await bcrypt.compare(password, hashedPassword);
         if (passwordMatch) {
-            return res.status(200).json({
-                status: 200,
-                message: 'User and password are correct!'
-            });
-        } else {
-            return res.status(401).json({
-                status: 401,
-                message: 'Incorrect password!'
-            });
+            return true;
         }
+        return false;
+        
     } catch (error) {
         console.error('Error in checkpass:', error);
-        return res.status(500).json({
-            status: 500,
-            message: 'Internal server error!'
-        });
+        return false;
     }
 }
-
 export default async function loginHandler(req: Request, res: Response) {
     try {
         const { userName, email, password }: { userName: string; email: string; password: string } = req.body;
-        if (userName) {
-            const user = await User.findOne({ userName });
-            if (user) {
-                // Call checkpass with the hashed password from the user object
-                await checkpass(res, password, user.password);
-            } else {
-                return res.status(404).json({
-                    status: 404,
-                    message: 'User not found!'
-                });
-            }
-        } else {
-            const user = await User.findOne({ email });
-            if (user) {
-                // Call checkpass with the hashed password from the user object
-                await checkpass(res, password, user.password);
-            } else {
-                return res.status(404).json({
-                    status: 404,
-                    message: 'Email not found!'
-                });
-            }
+
+        if (!userName && !email) {
+            return res.status(400).json({
+                status: 400,
+                message: 'Username or email is required'
+            });
         }
+
+        const user = await User.findOne({ $or: [{ userName }, { email }] });
+
+        if (!user) {
+            return res.status(404).json({
+                status: 404,
+                message: 'User not found'
+            });
+        }
+
+        const passwordMatch = await checkpass(password, user.password);
+
+        if (!passwordMatch) {
+            return res.status(401).json({ 
+                status: 401,
+                message: 'Incorrect password'
+            });
+        }
+
+        const userJwtToken = generateToken(userName, user.password);
+
+        // Set JWT token as a cookie
+        res.cookie('user-token', userJwtToken, {
+            httpOnly: true
+        });
+
+        return res.status(200).json({
+            status: 200,
+            message: 'User authenticated successfully'
+        });
+
     } catch (error) {
         console.error('Error in loginHandler:', error);
         return res.status(500).json({

@@ -7,16 +7,32 @@ interface Social {
   link: string;
 }
 
+// Define the Notification Preferences schema
+interface NotificationPreferences {
+  email: boolean;
+  sms: boolean;
+}
+
 // Define the User schema
 interface UserDocument extends Document {
   fullName: string;
   userName: string;
   email: string;
   password: string;
-  coursesIds: string[];
-  platformFollowers: number;
-  profileImage: string;
-  social: Social[];
+  coursesIds?: string[];
+  platformFollowers?: number;
+  profileImage?: string;
+  social?: Social[];
+  address?: string;
+  phoneNumber?: string;
+  paymentMethods?: string[];
+  paymentHistory?: mongoose.Types.ObjectId[];
+  accountBalance: number;
+  accountStatus: 'active' | 'inactive' | 'banned';
+  createdAt: Date;
+  lastLoginAt?: Date;
+  notificationPreferences: NotificationPreferences;
+  roles?: string[];
 }
 
 const userSchema = new Schema<UserDocument>({
@@ -24,16 +40,29 @@ const userSchema = new Schema<UserDocument>({
   userName: { type: String, unique: true, required: true },
   email: { type: String, unique: true, required: true },
   password: { type: String, required: true },
-  coursesIds: { type: [String], required: false },
-  platformFollowers: { type: Number, required: false },
-  profileImage: { type: String, required: false },
+  coursesIds: { type: [String] },
+  platformFollowers: { type: Number },
+  profileImage: { type: String },
   social: [{
-    svg: { type: String, required: false },
-    name: { type: String, required: false },
-    link: { type: String, required: false },
+    svg: { type: String },
+    name: { type: String },
+    link: { type: String },
   }],
+  address: { type: String },
+  phoneNumber: { type: String },
+  paymentMethods: [{ type: String }],
+  paymentHistory: [{ type: Schema.Types.ObjectId, ref: 'Transaction' }],
+  accountBalance: { type: Number, default: 0 },
+  accountStatus: { type: String, enum: ['active', 'inactive', 'banned'], default: 'active' },
+  createdAt: { type: Date, default: Date.now },
+  lastLoginAt: { type: Date },
+  notificationPreferences: {
+    email: { type: Boolean, default: true },
+    sms: { type: Boolean, default: false },
+  },
+  roles: [{ type: String }],
 });
 
-const User = mongoose.model<UserDocument>('User', userSchema);
+const UserModel = mongoose.model<UserDocument>('User', userSchema);
 
-export { User };
+export default UserModel;

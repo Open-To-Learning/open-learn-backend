@@ -15,6 +15,6 @@
 13. [x] Save CoursesId to user courseId Array to Database
 14. [x] deleted courses from database and user corseId array 
 15. [ ] deleted/update users from database  
-16. [ ] find tranding courses from database  based on popuularity
+16. [x] find tranding courses from database  based on popuularity
 17. [x] update/detete courses [created refec option]
 

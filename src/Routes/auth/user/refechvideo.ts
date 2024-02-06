@@ -39,7 +39,7 @@ export default async function refetchVideo(req: Request, res: Response, next: Ne
 
     const imageBase64 = await imageUrlToBase64(thumbnail.url);
 
-    const updatedCourse = await Course.findOneAndReplace(
+    const updatedCourse = await Course.findOneAndUpdate(
         {
             videoId:youtubeVideoId,
             author:userName

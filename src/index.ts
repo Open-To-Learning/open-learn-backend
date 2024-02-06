@@ -5,6 +5,7 @@ import bodyParser from 'body-parser';
 import authRoute from './Routes/auth/auth';
 import DBConnection from './DB/db'
 import cookieParser from 'cookie-parser';
+import videosRouter from './Routes/videos/videosRoute';
 
 // config
 dotenv.config(); // configuring .env file
@@ -28,6 +29,7 @@ app.use(cookieParser());
 // all routes
 app.use('/api/v1', Full_Video_route);
 app.use('/auth/', authRoute);
+app.use('/videos',videosRouter);
 
 // default route
 app.get('/', (req: Request, res: Response) => {
