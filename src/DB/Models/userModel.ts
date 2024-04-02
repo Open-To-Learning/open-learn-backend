@@ -19,7 +19,7 @@ interface UserDocument extends Document {
   userName: string;
   email: string;
   password: string;
-  coursesIds?: string[];
+  coursesIds?: Schema.Types.ObjectId[];
   platformFollowers?: number;
   profileImage?: string;
   social?: Social[];
@@ -40,7 +40,7 @@ const userSchema = new Schema<UserDocument>({
   userName: { type: String, unique: true, required: true },
   email: { type: String, unique: true, required: true },
   password: { type: String, required: true },
-  coursesIds: { type: [String] },
+  coursesIds: { type: [Schema.Types.ObjectId] ,ref:'Course' },
   platformFollowers: { type: Number },
   profileImage: { type: String },
   social: [{

@@ -58,36 +58,5 @@ const courseSchema = new Schema<CourseDocument>({
 
 const Course = model<CourseDocument>('Course', courseSchema);
 
-// Fetch video details and save to MongoDB
-const saveVideoDetails = async (youtubeVideoId: string, res: Response) => {
-  try {
-    const info: videoInfo = await ytdl.getInfo(youtubeVideoId);
-    const { title, description, lengthSeconds, uploadDate, videoId, thumbnails, keywords } = info.videoDetails;
-    const thumbnail = thumbnails[thumbnails.length - 1];
 
-    const newCourse = new Course({
-      Id: 'someId',
-      VideoId: videoId,
-      title: title,
-      description: description,
-      thumbnail: thumbnail,
-      length: lengthSeconds,
-      paid: false,
-      tags: keywords,
-      type: 'video',
-      popularity: 'high', // Or set according to your business logic
-      author: 'authorName', // Or set according to your business logic
-      uploadDate: uploadDate,
-      reviews: [], // Add reviews later
-      comments: '' // Add comments later
-    });
-
-    await newCourse.save();
-    res.json(newCourse); // Send response after saving to MongoDB
-  } catch (error: any) {
-    console.error('Error:', error.message);
-    res.status(500).json({ error: error.message });
-  }
-};
-
-export { Course, saveVideoDetails };
+export { Course };
