@@ -6,7 +6,7 @@ import authRoute from './Routes/auth/auth';
 import DBConnection from './DB/db'
 import cookieParser from 'cookie-parser';
 import videosRouter from './Routes/videos/videosRoute';
-
+import cors from 'cors';
 // config
 dotenv.config(); // configuring .env file
 
@@ -21,6 +21,7 @@ export const SECRET_TOKEN: string | undefined = process.env.USER_SECRET;
 DBConnection(DB);
 
 // middleware
+app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false })); // Use built-in express.urlencoded middleware
 app.use(bodyParser.urlencoded({extended:false}))
