@@ -35,6 +35,7 @@ export default async function loginHandler(req: Request, res: Response) {
 
         if (!userName && !email) {
             return res.status(400).json({
+                ok:false,
                 status: 400,
                 message: 'Username or email is required'
             });
@@ -44,6 +45,7 @@ export default async function loginHandler(req: Request, res: Response) {
 
         if (!user) {
             return res.status(404).json({
+                ok:false,
                 status: 404,
                 message: 'User not found'
             });
@@ -53,6 +55,7 @@ export default async function loginHandler(req: Request, res: Response) {
 
         if (!passwordMatch) {
             return res.status(401).json({ 
+                ok:false,
                 status: 401,
                 message: 'Incorrect password'
             });
@@ -66,6 +69,7 @@ export default async function loginHandler(req: Request, res: Response) {
         });
 
         return res.status(200).json({
+            ok:true,
             status: 200,
             message: 'User authenticated successfully'
         });
@@ -73,6 +77,7 @@ export default async function loginHandler(req: Request, res: Response) {
     } catch (error) {
         console.error('Error in loginHandler:', error);
         return res.status(500).json({
+            ok:false,
             status: 500,
             message: 'Internal Server Error'
         });

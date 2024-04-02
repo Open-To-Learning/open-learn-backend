@@ -38,6 +38,7 @@ export default async function RegisterHandler(req: Request, res: Response) {
         const existingUser = await User.findOne({ $or: [{ userName }, { email }] });
         if (existingUser) {
             return res.status(400).json({
+                ok:false,
                 status: 400,
                 message: 'User with the same userName or email already exists!'
             });
@@ -66,12 +67,14 @@ export default async function RegisterHandler(req: Request, res: Response) {
         });
 
         res.status(201).json({
+            ok:true,
             status: 201,
             message: "Data saved successfully"
         }); // 201 status for resource created
     } catch (error) {
         console.error('Error in RegisterHandler:', error);
         res.status(500).json({
+            ok:false,
             status: 500,
             message: "Internal server error"
         });
