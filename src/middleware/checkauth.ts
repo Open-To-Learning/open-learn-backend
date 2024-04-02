@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import { SECRET_TOKEN } from "../index"; // Ensure that SECRET_TOKEN is correctly imported from your source file
 import jwt from 'jsonwebtoken';
-import { User } from "../DB/Models/userModel";
+import User from "../DB/Models/userModel";
 
 export default async function checkauth(req: Request, res: Response, next: NextFunction) {
     try {
@@ -14,7 +14,7 @@ export default async function checkauth(req: Request, res: Response, next: NextF
         const user_token = req.cookies['user-token'];
         if (!user_token) {
             return res.status(401).json({ status: 401, message: 'User not authenticated' });
-        }
+        } 
 
         // Check if SECRET_TOKEN is available
         if (!SECRET_TOKEN) {

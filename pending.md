@@ -18,3 +18,4 @@
 16. [x] find tranding courses from database  based on popuularity
 17. [x] update/detete courses [created refec option]
 
+18 [] optimize the base64 tumblnails by compressing 

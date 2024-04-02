@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { User } from "../../../DB/Models/userModel";
+import User from "../../../DB/Models/userModel";
 import { Course } from "../../../DB/Models/courseModel";
 
 export default async function DeleteVideo(req: Request, res: Response, next: NextFunction) {

@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import ytdl, { videoInfo } from "ytdl-core";
 import { Course } from "../../../DB/Models/courseModel";
-import { User } from "../../../DB/Models/userModel";
+// import { User } from "../../../DB/Models/userModel";
 
 async function imageUrlToBase64(url: string) {
   try {

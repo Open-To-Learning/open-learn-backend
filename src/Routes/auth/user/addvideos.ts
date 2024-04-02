@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { User } from "../../../DB/Models/userModel";
+import User from "../../../DB/Models/userModel";
 import ytdl, { videoInfo } from "ytdl-core";
 import { Course } from "../../../DB/Models/courseModel";
 
@@ -44,6 +44,7 @@ export default async function addNewVideo(req: Request, res: Response, next: Nex
     const info: videoInfo = await ytdl.getInfo(youtubeVideoId);
     const { title, description, lengthSeconds, uploadDate, videoId, thumbnails, keywords } = info.videoDetails;
     const thumbnail: any = thumbnails[thumbnails.length - 1];
+    
 
     const imageBase64 = await imageUrlToBase64(thumbnail.url);
 
