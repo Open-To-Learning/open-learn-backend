@@ -21,7 +21,7 @@ export const SECRET_TOKEN: string | undefined = process.env.USER_SECRET;
 DBConnection(DB);
 
 // middleware
-app.use(cors());
+app.use(cors({ origin: 'http://localhost:4200', credentials: true }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false })); // Use built-in express.urlencoded middleware
 app.use(bodyParser.urlencoded({extended:false}))

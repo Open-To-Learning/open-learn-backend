@@ -18,7 +18,7 @@ function generateToken(userName: string, password: string): string {
         throw new Error('User secret token not found');
     }
 
-    const token = jwt.sign({ userName, password }, SECRET_TOKEN);
+    const token =  jwt.sign({ userName, password }, SECRET_TOKEN);
     return token;
 }
 
@@ -62,7 +62,8 @@ export default async function RegisterHandler(req: Request, res: Response) {
         const userJwtToken = generateToken(userName, hashedPassword);
         
         // Set JWT token as a cookie
-        res.cookie('user-token', userJwtToken, {
+        res.setHeader('Access-Control-Allow-Credentials', 'true');
+        res.cookie('user', userJwtToken, {
             httpOnly: true
         });
 

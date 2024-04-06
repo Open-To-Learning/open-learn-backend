@@ -62,10 +62,10 @@ export default async function loginHandler(req: Request, res: Response) {
         }
 
         const userJwtToken = generateToken(userName, user.password);
-
         // Set JWT token as a cookie
-        res.cookie('user-token', userJwtToken, {
-            httpOnly: true
+        res.setHeader('Access-Control-Allow-Credentials', 'true');
+        res.cookie('user', userJwtToken, {
+           httpOnly: true
         });
 
         return res.status(200).json({
@@ -83,3 +83,4 @@ export default async function loginHandler(req: Request, res: Response) {
         });
     }
 }
+
