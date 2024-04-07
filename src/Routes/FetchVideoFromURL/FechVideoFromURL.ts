@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response, Router } from "express";
 import ytdl, { videoInfo, Filter, chooseFormat } from "ytdl-core";
 import checkauth from "../../middleware/checkauth";
+import { Course } from "../../DB/Models/courseModel";
 
 const route = Router();
 
@@ -79,12 +80,23 @@ const handleError = (res: Response, errorMessage: string) => {
  
 // video details fetching 
 async function fetchOnlyVideoDetails(req:Request,res:Response){
-    const info: videoInfo = await ytdl.getInfo(req.params.videoID);
-    res.json(info.videoDetails);
+    try{
+        const course = await Course.findById(req.params.videoID)
+        // const info: videoInfo = await ytdl.getInfo(req.params.videoID);
+        res.json({
+            ok:true,
+            info:course
+        });
+    }catch(err: any ){
+        res.json({
+            ok : false,
+            message:err.message
+        })
+    }
 }
 
 // Route handler
-route.get('/video-url/:videoID/video-details',checkauth,fetchOnlyVideoDetails)
+route.get('/video-url/:videoID/video-details',checkauth,fetchOnlyVideoDetails) // only details
 route.get('/video-url/:videoID?', checkauth, handleVideoRequest);
 
 export default route;

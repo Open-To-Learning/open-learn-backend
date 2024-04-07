@@ -35,7 +35,7 @@ export default async function addNewVideo(req: Request, res: Response, next: Nex
    res.status(500).json({
         status:500,
         message:`course already exist by author ${isCourseAllReadyExists.author}`
-    })
+    });
     return ;
      
   }
