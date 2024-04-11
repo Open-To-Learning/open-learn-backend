@@ -3,7 +3,7 @@ import { SECRET_TOKEN } from "../index"; // Ensure that SECRET_TOKEN is correctl
 import jwt from 'jsonwebtoken';
 import User from "../DB/Models/userModel";
 
-export default async function checkauth(req: Request, res: Response, next: NextFunction) {
+export default async function checkauth(req : any, res: Response, next: NextFunction) {
     try {
         // Check if cookies are available in the request
         if (!req.cookies) {
@@ -36,6 +36,9 @@ export default async function checkauth(req: Request, res: Response, next: NextF
         }
 
         req.params.cookiesData = decodedToken;
+        req.userName = decodedToken.userName;
+        console.log(decodedToken);
+        
         next();
     } catch (error) {
         if (error instanceof jwt.JsonWebTokenError) {

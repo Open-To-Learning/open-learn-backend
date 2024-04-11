@@ -1,6 +1,5 @@
 import { Schema, Document, model } from 'mongoose';
-import ytdl, { videoInfo } from "ytdl-core";
-import { Response } from 'express';
+
 
 // Define the Review schema
 interface Review {

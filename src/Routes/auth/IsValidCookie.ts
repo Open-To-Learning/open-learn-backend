@@ -37,6 +37,7 @@ export default async function isValidCookie(req: Request, res: Response, next: N
         }
         res.status(200).json({
             ok:true,
+            userName:user.userName,
             message:'user found !'
         })
     } catch (error) {
