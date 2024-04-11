@@ -3,7 +3,7 @@ import ytdl, { videoInfo } from "ytdl-core";
 import { Course } from "../../../DB/Models/courseModel";
 // import { User } from "../../../DB/Models/userModel";
 
-async function imageUrlToBase64(url: string) {
+export  async function imageUrlToBase64(url: any) {
   try {
     const response = await fetch(url);
     const blob = await response.arrayBuffer();

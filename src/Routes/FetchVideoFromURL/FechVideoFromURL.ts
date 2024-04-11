@@ -2,6 +2,7 @@ import { NextFunction, Request, Response, Router } from "express";
 import ytdl, { videoInfo, Filter, chooseFormat } from "ytdl-core";
 import checkauth from "../../middleware/checkauth";
 import { Course } from "../../DB/Models/courseModel";
+import { imageUrlToBase64 } from "../auth/user/refechvideo";
 
 const route = Router();
 
@@ -94,9 +95,27 @@ async function fetchOnlyVideoDetails(req:Request,res:Response){
         })
     }
 }
+async function ytfetchOnlyVideoDetails(req:Request,res:Response){
+    try{
+        const info: videoInfo = await ytdl.getInfo(req.params.videoID);
+        const { title, description, lengthSeconds, uploadDate, videoId, thumbnails, keywords }:any = info.videoDetails;
+        const thumbnail: any = thumbnails[thumbnails.length - 1];
+        const imageBase64 = await imageUrlToBase64(thumbnail.url);
+        res.json({
+            ok:true,
+            title, description, lengthSeconds, uploadDate, videoId, thumbnail:imageBase64, keywords
+        })
+    }catch(err: any ){
+        res.json({ 
+            ok : false,
+            message:err.message
+        })
+    }
+}
 
 // Route handler
 route.get('/video-url/:videoID/video-details',checkauth,fetchOnlyVideoDetails) // only details
+route.get('/yt-video-url/:videoID/video-details',checkauth,ytfetchOnlyVideoDetails) // only details
 route.get('/video-url/:videoID?', checkauth, handleVideoRequest);
 
 export default route;
