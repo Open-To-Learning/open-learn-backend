@@ -41,8 +41,8 @@ const userSchema = new Schema<UserDocument>({
   userName: { type: String, unique: true, required: true },
   email: { type: String, unique: true, required: true },
   password: { type: String, required: true },
-  coursesIds: { type: [Schema.Types.ObjectId] ,ref:'Course' },
-  enrolled:{ type: [Schema.Types.ObjectId] ,ref:'Course' },
+  coursesIds: { type: [Schema.Types.ObjectId], ref: 'Course' },
+  enrolled: { type: [{ courseId: { type: Schema.Types.ObjectId, ref: 'Course' }, progress: { type: Number, default: 0, } }], ref: 'Course' },
   platformFollowers: { type: Number },
   profileImage: { type: String },
   social: [{

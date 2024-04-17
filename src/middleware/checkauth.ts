@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import { SECRET_TOKEN } from "../index"; // Ensure that SECRET_TOKEN is correctly imported from your source file
+import {SECRET_TOKEN}  from "../index"; // Ensure that SECRET_TOKEN is correctly imported from your source file
 import jwt from 'jsonwebtoken';
 import User from "../DB/Models/userModel";
 

@@ -17,9 +17,10 @@ async function imageUrlToBase64(url: string) {
   }
 }
 
-export default async function addNewVideo(req: Request, res: Response, next: NextFunction) {
+export default async function addNewVideo(req: any, res: Response, next: NextFunction) {
   const cookiesData: any = req.params.cookiesData;
-  const {userName, youtubeVideoId} = req.body;
+  const { youtubeVideoId} = req.body;
+  const userName = req.userName;
 
   if (cookiesData.userName !== userName) {
     res.status(400).json({
