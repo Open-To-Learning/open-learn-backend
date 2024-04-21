@@ -116,6 +116,7 @@ async function fetchOnlyVideoDetails(req: any, res: Response) {
         const isEnrolled = await isEnrolledCourse(req.userName, req.params.videoID); // await the result
         res.json({
             ok: true,
+            message : "Successfully fetched video",
             isEnrolled: isEnrolled, // sending isEnrolled result
             info: course
         });
@@ -135,6 +136,7 @@ async function ytfetchOnlyVideoDetails(req:Request,res:Response){
         const imageBase64 = await imageUrlToBase64(thumbnail.url);
         res.json({
             ok:true,
+            message: "Successfully fetched video details",
             title, description, lengthSeconds, uploadDate, videoId, thumbnail:imageBase64, keywords
         })
     }catch(err: any ){
