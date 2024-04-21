@@ -3,6 +3,7 @@ import { BigCourse } from '../../DB/Models/BigCourseModel/BigCourse';
 
 import { NextFunction, Request, Response } from "express";
 import UserModel from '../../DB/Models/userModel';
+import { Lecture } from '../../DB/Models/BigCourseModel/Lecture';
 // {
 //     author: string;
 //     title: string;
@@ -104,3 +105,34 @@ export async function DeleteBigCourse(req: any, res: Response, next: NextFunctio
     }
 }
 
+export async function getBigCourseDetails(req: any, res: Response, next: NextFunction) {
+    const { id } = req.params;
+    try {
+        const bigCourseDetails = await BigCourse.findById(id);
+        if (!bigCourseDetails) {
+            return res.status(404).send({
+                ok: false,
+                message: 'Course not found!'
+            });
+        }
+        
+        const modules = await Promise.all(bigCourseDetails.modules.map(async (module: any) => {
+            const lectures = await Promise.all(module.lectures.map(async (lectureId: string) => {
+                return await Lecture.findById(lectureId);
+            }));
+            return { ...module._doc, lectures };
+        }));
+
+        res.status(200).send({
+            ok: true,
+            message: 'Course details retrieved successfully!',
+            bigCourseDetails,
+            modules
+        });
+    } catch (err: any) {
+        res.status(500).send({
+            ok: false,
+            message: err.message
+        });
+    }
+}

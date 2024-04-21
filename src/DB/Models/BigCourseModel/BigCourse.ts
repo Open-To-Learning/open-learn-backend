@@ -21,12 +21,13 @@ interface LectureRef {
 
 // Define the Module interface
 interface Module {
+  id:string,
   lectures: LectureRef[];
   totalDuration: number;
 }
 
 // Define the Course schema
-interface CourseDocument extends Document {
+interface BigCourseDocument extends Document {
   author: string;
   title: string;
   description: string;
@@ -41,7 +42,7 @@ interface CourseDocument extends Document {
   comments: string;
 }
 
-const BigcourseSchema = new Schema<CourseDocument>({
+const BigcourseSchema = new Schema<BigCourseDocument>({
   title: { type: String, required: true },
   description: { type: String, required: false },
   thumbnail: {
@@ -57,6 +58,7 @@ const BigcourseSchema = new Schema<CourseDocument>({
   author: { type: String, required: true },
   reviews: [{ type: Schema.Types.Mixed, required: false }],
   modules: [{
+    id:{type:String,required:true,unique:true},
     lectures: [{
       id: { type: Schema.Types.ObjectId, ref: 'Lecture' },
       title: { type: String, required: true },
@@ -67,6 +69,6 @@ const BigcourseSchema = new Schema<CourseDocument>({
   comments: [{ type: String, required: false }],
 }, { timestamps: true });
 
-const BigCourse = model<CourseDocument>('BigCourse', BigcourseSchema);
+const BigCourse = model<BigCourseDocument>('BigCourse', BigcourseSchema);
 
 export { BigCourse };
