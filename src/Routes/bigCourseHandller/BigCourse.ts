@@ -2,7 +2,7 @@ import { Router } from 'express';
 
 import { CreateBigCourse, DeleteBigCourse, UpdateBigCourse ,getBigCourseDetails} from './CreateBigCourseHandller';
 import checkauth from '../../middleware/checkauth';
-import { CreateModule, DeleteModule, UpdateModule } from './CreateModule';
+import { CreateModule, DeleteModule, UpdateVideosInModule } from './CreateModule';
 const router = Router();
 
 // ------------ bigCourse modules ----------------------
@@ -12,7 +12,7 @@ router.put('/update-big-course',checkauth,UpdateBigCourse);
 router.delete('/delete-big-course',checkauth,DeleteBigCourse);
 // ------------ update modules ----------------------
 router.post('/create-big-course-module',checkauth,CreateModule);
-router.put('/update-big-course-module',checkauth,UpdateModule);
+router.put('/update-big-course-module',checkauth,UpdateVideosInModule);
 router.delete('/delete-big-course-module',checkauth,DeleteModule);
 // ------------ update lectures ----------------------
 // router.post('/create-lectures',checkauth,CreateLectures);

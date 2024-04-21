@@ -30,30 +30,28 @@ export async function CreateModule(req:any,res:Response,next:NextFunction){
             })
             return ;
         }
-
-        let id:string = crypto.randomUUID();
         let flag = true;
-        while(flag ===true){
-            flag = false;
-            for(let i =0;i<isOwner.modules.length ; i++){
-                if(id === isOwner.modules[i].id){
-                    flag = true;
-                    id = crypto.randomUUID();
-                    break;
-                }
-                
-            };
+        let id:string = crypto.randomUUID();
+        if(isOwner.modules) {
+            while (flag === true) {
+                flag = false;
+                isOwner.modules.forEach((module:any)=> {
+                    if (id === module.id) {
+                        flag = true;
+                        id = crypto.randomUUID();
+                    }
+                })
+            }
         }
+       
         
     const courseModule =await BigCourse.findByIdAndUpdate(courseId,{modules:{$push:{id,title}}},{new:true});
 
         res.status(201).send({
             ok:true,
-            message:'course created successfuly ! ',
+            message:'Module created successfuly ! ',
             courseModule
-
         })
-
     }catch(err:any){
         res.status(500).send({
             ok:false,
@@ -62,7 +60,7 @@ export async function CreateModule(req:any,res:Response,next:NextFunction){
     }
 
 }
-export async function UpdateModule(req: any, res: Response, next: NextFunction) {
+export async function UpdateVideosInModule(req: any, res: Response, next: NextFunction) {
     try {
         const { courseId, moduleId,lecture_description ,Lecture_title, youtubeVideoId } = req.body;
 
