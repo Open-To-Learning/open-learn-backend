@@ -37,6 +37,7 @@ export default async function checkauth(req : any, res: Response, next: NextFunc
 
         req.params.cookiesData = decodedToken;
         req.userName = decodedToken.userName;
+        req.userId = user._id;
         // console.log(decodedToken);
         
         next();

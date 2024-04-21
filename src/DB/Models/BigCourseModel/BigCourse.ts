@@ -1,4 +1,4 @@
-import { Schema, Document, model } from 'mongoose';
+import mongoose, { Schema, Document, model } from 'mongoose';
 
 interface Review {
   stars: number;
@@ -31,10 +31,11 @@ interface CourseDocument extends Document {
   title: string;
   description: string;
   thumbnail: Thumbnail;
-  cost: string;
+  cost: number;
   tags: string[];
   type: string;
-  enrolled: number;
+  totalenrolled: number;
+  enrolled:mongoose.Types.ObjectId[];
   modules: Module[];
   reviews: Review[];
   comments: string;
@@ -44,14 +45,15 @@ const BigcourseSchema = new Schema<CourseDocument>({
   title: { type: String, required: true },
   description: { type: String, required: false },
   thumbnail: {
-    width: { type: Number, required: true },
-    height: { type: Number, required: true },
-    base64: { type: String, required: true },
+    width: { type: Number, required: false },
+    height: { type: Number, required: false },
+    base64: { type: String, required: false },
   },
-  cost: { type: String, default: "0" },
+  cost: { type: Number, default: 0 },
   tags: { type: [String], required: false },
   type: { type: String, required: true },
-  enrolled: { type: Number, default: 0 },
+  totalenrolled: { type: Number, default: 0 },
+  enrolled:{type:[Schema.Types.ObjectId],ref:'User'},
   author: { type: String, required: true },
   reviews: [{ type: Schema.Types.Mixed, required: false }],
   modules: [{

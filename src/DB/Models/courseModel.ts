@@ -20,7 +20,7 @@ interface CourseDocument extends Document {
   description: string;
   thumbnail: thumbnail;
   paid: boolean;
-  cost:string;
+  cost:number;
   tags: string[];
   type: string;
   popularity: number;
@@ -35,14 +35,13 @@ const courseSchema = new Schema<CourseDocument>({
   title: { type: String, required: true },
   lengthSeconds:{type:String,require:true},
   description: { type: String, required: false },
-  thumbnail: { 
-    width:{type:Number,required:true},
-    height:{type:Number,required:true},
-    base64:{type:String,required:true},
-
-   },
+  thumbnail: {  
+    width: { type: Number, required: true },
+    height: { type: Number, required: true },
+    base64: { type: String, required: true },
+  },
   paid: { type: Boolean, required: true },
-  cost:{ type:String , default:"0"},
+  cost:{ type:Number , default:0},
   tags: { type: [String], required: false },
   type: { type: String, required: false },
   popularity: { type: Number,default:0 },

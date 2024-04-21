@@ -9,6 +9,7 @@ import cookieParser from 'cookie-parser';
 import videosRouter from './Routes/videos/videosRoute';
 import cors from 'cors';
 import checkauth from './middleware/checkauth';
+import BigCourseRouter from './Routes/bigCourseHandller/BigCourse';
 // config
 dotenv.config(); // configuring .env file
 
@@ -32,6 +33,7 @@ app.use(cookieParser());
 // all routes
 app.use('/api/v1', Full_Video_route);
 app.use('/auth/', authRoute);
+app.use('/big-course',BigCourseRouter)
 app.use('/api/v1/videos',videosRouter);
 app.use('/api/v1/trackProgress', checkauth, trackProgress);
 
