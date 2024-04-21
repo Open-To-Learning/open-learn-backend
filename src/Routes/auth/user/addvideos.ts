@@ -75,6 +75,8 @@ export default async function addNewVideo(req: any, res: Response, next: NextFun
     );
 
     res.json({
+        ok: true,
+        message: "Course created successfully",
         course,
         user
     });
