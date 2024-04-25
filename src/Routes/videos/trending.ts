@@ -4,7 +4,7 @@ import { Course } from "../../DB/Models/courseModel";
 export default async function fetchTrendingCourses(req:Request,res:Response,next:NextFunction){
     try{
 
-        const topCourses = await Course.find().sort({popularity:-1});
+        const topCourses = await Course.find().sort({uploadDate:1});
         res.json({
             ok:true,
             topCourses

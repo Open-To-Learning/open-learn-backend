@@ -13,10 +13,10 @@ import EnrollInVideo from './user/enroll';
 const router = Router();
 
 
-
 router.post('/register',RegisterHandler);
 router.post('/login',loginHandler);
 router.post('/logout',logoutHandler);
+
 router.put('/addvideo',checkauth,addNewVideo);
 router.put('/refetch',checkauth,refetchVideo);
 router.put('/enroll/:videoId',checkauth,EnrollInVideo)

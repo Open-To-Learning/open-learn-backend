@@ -15,7 +15,7 @@ dotenv.config(); // configuring .env file
 
 // constants
 const app = express();
-const PORT = process.env.PORT || 8000;
+const PORT = process.env.PORT ;
 const DB: string | undefined = process.env.DB || "error";
 // exports
 export const SECRET_TOKEN: string | undefined = process.env.USER_SECRET;
@@ -27,7 +27,7 @@ DBConnection(DB);
 app.use(cors({ origin: 'http://localhost:4200', credentials: true }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false })); // Use built-in express.urlencoded middleware
-app.use(bodyParser.urlencoded({extended:false}))
+app.use(bodyParser.urlencoded({extended:false}));
 app.use(cookieParser());
  
 // all routes
